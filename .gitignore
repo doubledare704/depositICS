@@ -107,3 +107,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#deposits project
+.idea/
+db.txt.txt
