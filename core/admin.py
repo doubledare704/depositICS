@@ -1,14 +1,38 @@
 from django.contrib import admin
 from django.contrib.admin import site
-import adminactions.actions as actions
+import adminactions.actions as acts
 from core.models import *
 
+
 # Register your models here.
-actions.add_to_site(site)
-admin.site.register(SWOT)
-admin.site.register(Client)
-admin.site.register(Credits)
-admin.site.register(Contracts)
-admin.site.register(Deposits)
-admin.site.register(Valuta)
-admin.site.register(Reports)
+
+
+def copy_objects(modeladmin, request, queryset):
+    for o in queryset:
+        o.id = None
+        o.save()
+
+
+copy_objects.short_description = 'Copy all objects'
+
+
+class CopyMixin(object):
+
+    def __init__(self, model, admin_site):
+        self.actions = [copy_objects]
+        self.list_display = [field.name for field in model._meta.fields if field.name != "id"]
+        super(CopyMixin, self).__init__(model, admin_site)
+
+
+class AllAdmin(CopyMixin, admin.ModelAdmin):
+    pass
+
+
+acts.add_to_site(site)
+admin.site.register(SWOT, AllAdmin)
+admin.site.register(Client, AllAdmin)
+admin.site.register(Credits, AllAdmin)
+admin.site.register(Contracts, AllAdmin)
+admin.site.register(Deposits, AllAdmin)
+admin.site.register(Valuta, AllAdmin)
+admin.site.register(Reports, AllAdmin)

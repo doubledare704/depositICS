@@ -1,4 +1,4 @@
-Django==1.9.5
+Django==1.8.12
 django-adminactions==1.0
 django-controlcenter==0.1.2
 django-debug-toolbar==1.4

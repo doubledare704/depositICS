@@ -147,6 +147,11 @@ class Contracts(models.Model):
     datestart = models.DateField(
         verbose_name='Дата укладення договору'
     )
+    suma = models.DecimalField(
+        verbose_name='Сума',
+        max_digits=12,
+        decimal_places=2
+    )
 
     def __str__(self):
         return 'З {0} від {1}'.format(self.id_client, self.datestart)
