@@ -25,7 +25,7 @@ SECRET_KEY = '3kr18$b&f3o@4fby=ly1%2%fzoe6xrblb%8x1wy*-*en_&upk8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -53,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'depositICS.urls'
@@ -135,3 +136,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(SETTINGS_PATH, "static"),
 )
+# log in and out
+REGISTRATION_OPEN = True
+LOGIN_URL = 'users:auth_login'
+LOGOUT_URL = 'users:auth_logout'

@@ -6,21 +6,33 @@
 <body class="index-page">
 
 {% include "navbar.html" %}
-
 <div class="wrapper">
+    {% block mains %}
 	<div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg"%}');">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
+                    {% if user.is_authenticated %}
 					<div class="brand">
-						<h1>Вітаю, користувачу!</h1>
+						<h1>Вітаю, {{ user.get_full_name|default:user.username }}!</h1>
 						<h3>Обирай розділ з меню зверху.</h3>
 					</div>
+                    {% else %}
+                    <div class="brand">
+						<h2>Ви не зареєстровані!</h2>
+						<h3>Вам слід зареєструватись для подальшої роботи</h3>
+                        <div class="footer text-center">
+                            <a href="{% url "users:registration_register" %}" class="btn btn-raised btn-default btn-wd btn-lg">
+                                Реєстрація</a>
+                            <a href="{% url "users:auth_login" %}" class="btn btn-raised btn-info btn-wd btn-lg">Увійти</a>
+                        </div>
+					</div>
+                    {% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
-
+    {% endblock %}
     {% include "footer.html" %}
 
 </div>

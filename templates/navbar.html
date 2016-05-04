@@ -27,7 +27,7 @@
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
 				<li {% ifequal request.path home %}class="active"{% endifequal %}>
-					<a href="#" class="btn" target="_blank">
+					<a href="{% url "home" %}" class="btn" target="_blank">
 						<i class="material-icons">account_balance</i> Домашня сторінка
 					</a>
 				</li>
@@ -46,16 +46,29 @@
 						<i class="material-icons">trending_up</i> Звіти
 					</a>
 				</li>
-				<li>
+            {% if user.is_authenticated %}
+				<li class="disabled">
 					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">accessibility</i> {{ user.get_full_name|default:user.username }}
+					</a>
+				</li>
+				<li>
+					<a href="{% url "users:auth_logout" %}" class="btn">
+                        <i class="material-icons">exit_to_app</i> Вихід
+					</a>
+				</li>
+            {% else %}
+                <li>
+					<a href="{% url "users:auth_login" %}" target="_blank" class="btn">
 						<i class="material-icons">accessibility</i> Логін
 					</a>
 				</li>
 				<li>
-					<a href="#" target="_blank" class="btn">
+					<a href="{% url "users:registration_register" %}" target="_blank" class="btn">
 						<i class="material-icons">assignment_turned_in</i> Реєстрація
 					</a>
 				</li>
+            {% endif %}
 	    	</ul>
 	    </div>
 	</div>

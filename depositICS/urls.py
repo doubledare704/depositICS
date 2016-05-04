@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^adminactions/', include('adminactions.urls')),
     url(r'^report_builder/', include('report_builder.urls')),
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
+    url(r'^users/logout/$', auth_views.logout, kwargs={'next_page': 'home'},
+        name='auth_logout'),
+    url(r'^users/', include('registration.backends.simple.urls', namespace='users')),
+    url(r'^register/complete/$', RedirectView.as_view(pattern_name='home'),
+        name='registration_complete'),
 ]
