@@ -1,0 +1,32 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.html" %}
+
+<body class="index-page">
+
+{% include "navbar.html" %}
+
+<div class="wrapper">
+	<div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg"%}');">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="brand">
+						<h1>Вітаю, користувачу!</h1>
+						<h3>Обирай розділ з меню зверху.</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    {% include "footer.html" %}
+
+</div>
+
+</body>
+
+{% include "scripts.html" %}
+
+</html>

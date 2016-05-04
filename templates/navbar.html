@@ -1,0 +1,63 @@
+{% load static from staticfiles %}
+{% url "home" as home %}
+<!-- Navbar -->
+<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+	<div class="container">
+        <div class="navbar-header">
+	    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+	        	<span class="sr-only">Toggle navigation</span>
+	        	<span class="icon-bar"></span>
+	        	<span class="icon-bar"></span>
+	        	<span class="icon-bar"></span>
+	    	</button>
+	    	<a href="#">
+	        	<div class="logo-container">
+	                <div class="logo">
+	                    <img src="{% static "img/logo.png" %}" alt="deposit" rel="tooltip"
+                             title="<b>DepositICS</b> was Designed & Coded with care by Oleksiy Ovdiyenko"
+                             data-placement="bottom" data-html="true">
+	                </div>
+	                <div class="brand">
+	                    DepositICS
+	                </div>
+				</div>
+	      	</a>
+	    </div>
+
+	    <div class="collapse navbar-collapse" id="navigation-index">
+	    	<ul class="nav navbar-nav navbar-right">
+				<li {% ifequal request.path home %}class="active"{% endifequal %}>
+					<a href="#" class="btn" target="_blank">
+						<i class="material-icons">account_balance</i> Домашня сторінка
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">trending_up</i> SWOT
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">trending_up</i> Аналіз
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">trending_up</i> Звіти
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">accessibility</i> Логін
+					</a>
+				</li>
+				<li>
+					<a href="#" target="_blank" class="btn">
+						<i class="material-icons">assignment_turned_in</i> Реєстрація
+					</a>
+				</li>
+	    	</ul>
+	    </div>
+	</div>
+</nav>
+<!-- End Navbar -->
