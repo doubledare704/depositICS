@@ -5,10 +5,99 @@ var fixedTop = false;
 
 var navbar_initialized = false;
 
+function initEditSwot() {
+    $('a.swot-form-link, a.edit-form').click(function(event) {
+        var link = $(this);
+        var body = $("body");
+        $.ajax({
+            'url': link.attr('href'),
+            'dataType': 'html',
+            'type': 'get',
+            'ajaxStart': function() {
+                body.addClass("loading");
+            },
+            'ajaxStop': function() {
+                body.removeClass("loading");
+            },
+            'success': function(data, status, xhr) {
+                // check if we got successfull response from the server
+                if (status != 'success') {
+                    alert('There was an error on the server. Please, try again a bit later.');
+                    return false;
+                }
+
+                // update modal window with arrived content from the server
+                var modal = $('#myModal'),
+                    html = $(data),
+                    form = html.find('.col-md-4 form');
+                modal.find('.modal-title').html(html.find('#content-column h2').text());
+                modal.find('.modal-body').html(form);
+
+                // init our edit form
+                initEditForm(form, modal);
+
+                // setup and show modal window finally
+                modal.modal({
+                    'keyboard': true,
+                    'backdrop': false,
+                    'show': true
+                });
+            },
+            'error': function() {
+                alert('There was an error on the server. Please, try again a bit later.');
+                return false
+            }
+        });
+
+        return false;
+    });
+}
+
+function initEditForm(form, modal) {
+
+    // close modal window on Cancel button click
+    form.find('a.btn-warning, a.btn-info').click(function(event) {
+        modal.modal('hide');
+        return false;
+    });
+
+    // make form work in AJAX mode
+    form.ajaxForm({
+        'dataType': 'html',
+        'error': function() {
+            alert('There was an error on the server. Please, try again a bit later.');
+            return false;
+        },
+        'success': function(data, status, xhr) {
+            var html = $(data),
+                newform = html.find('.col-md-4 form');
+
+            // copy alert to modal window
+            modal.find('.modal-body').html(html.find('.alert'));
+
+            // copy form to modal if we found it in server response
+            if (newform.length > 0) {
+                modal.find('.modal-body').append(newform);
+
+                // initialize form fields and buttons
+                initEditForm(newform, modal);
+            } else {
+                // if no form, it means success and we need to reload page
+                // to get updated students list;
+                // reload after 2 seconds, so that user can read success message
+                setTimeout(function() {
+                    location.reload(true);
+                }, 900);
+            }
+        }
+    });
+}
+
 $(document).ready(function(){
 
     // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
     $.material.init();
+    initEditSwot();
 
 
     //  Activate the Tooltips

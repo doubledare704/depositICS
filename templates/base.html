@@ -22,9 +22,9 @@
 						<h2>Ви не зареєстровані!</h2>
 						<h3>Вам слід зареєструватись для подальшої роботи</h3>
                         <div class="footer text-center">
-                            <a href="{% url "users:registration_register" %}" class="btn btn-raised btn-default btn-wd btn-lg">
+                            <a href="{% url "users:registration_register" %}" class="edit-form btn btn-raised btn-default btn-wd btn-lg">
                                 Реєстрація</a>
-                            <a href="{% url "users:auth_login" %}" class="btn btn-raised btn-info btn-wd btn-lg">Увійти</a>
+                            <a href="{% url "users:auth_login" %}" class="edit-form btn btn-raised btn-info btn-wd btn-lg">Увійти</a>
                         </div>
 					</div>
                     {% endif %}
@@ -35,7 +35,19 @@
     {% endblock %}
     {% include "registration/messages.html" %}
     {% include "footer.html" %}
-
+    <!-- Modal Boilerplate -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel"><!-- --></h4>
+					</div>
+				<div class="modal-body"><!-- --></div>
+				<div class="modal-footer"><!-- --></div>
+				</div>
+			</div>
+		</div>
 </div>
 
 </body>
