@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'core',
     'debug_toolbar',
     'report_builder',
+    'crispy_forms',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import views as auth_views
+from core.views import SwotListView, SwotUpdateView, SwotCreateView,SwotDeleteView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,4 +29,9 @@ urlpatterns = [
     url(r'^users/', include('registration.backends.simple.urls', namespace='users')),
     url(r'^register/complete/$', RedirectView.as_view(pattern_name='home'),
         name='registration_complete'),
+    url(r'^swot/$', SwotListView.as_view(), name='swot'),
+    url(r'^swot/(?P<pk>\d+)/edit/$', SwotUpdateView.as_view(), name='swot_edit'),
+    url(r'^swot/add/$', SwotCreateView.as_view(), name='swot_add'),
+    url(r'^swot/(?P<pk>\d+)/del/$', SwotDeleteView.as_view(), name='swot_del'),
+
 ]

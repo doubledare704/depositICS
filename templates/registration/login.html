@@ -9,27 +9,11 @@
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
 					<div class="card card-signup">
+                        {% block forming %}
 						<form action="{% url "users:auth_login" %}" method="post" class="form">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{% url "home" %}" />
-                            {% if form.errors %}
-                              <div class="alert alert-warning" role="alert">
-                                    <div class="container-fluid">
-                                        <div class="alert-icon">
-                                            <i class="material-icons">info_outline</i>
-                                        </div>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                                        </button>
-                                        <h4>{% if form.non_field_errors %}
-                                          {{ form.non_field_errors.as_text }}
-                                        {% else %}
-                                          Виправіть помилки
-                                        {% endif %}
-                                        </h4>
-                                    </div>
-                              </div>
-                            {% endif %}
+                            {% include "registration/form_errors.html" %}
 							<div class="header header-primary text-center">
 								<h4>Логін</h4>
 							</div>
@@ -57,6 +41,7 @@
                                    class="btn btn-raised btn-info btn-wd">Нема профіля?</a>
 							</div>
 						</form>
+                        {% endblock %}
 					</div>
 				</div>
 			</div>
