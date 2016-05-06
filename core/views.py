@@ -13,6 +13,8 @@ from crispy_forms.layout import Submit, HTML
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from depositICS.settings import CURRENCY
+from collections import defaultdict
+from decimal import Decimal
 
 
 # Create your views here.
@@ -103,17 +105,42 @@ class AnalysisListView(TemplateView):
         creds_dates = Credits.objects.all().filter(
             date_credit__gte=time_threshold).values('date_credit',).annotate(sum=Sum('all_sum')).order_by('date_credit')
 
-        print(creds_dates)
         time_threshold = datetime.now() - relativedelta(years=1)
         summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
             'datestart', 'id_deposits__id_valuta__name').annotate(sum=Sum('suma')).order_by(
             '-id_deposits__id_valuta__name')
-        fin = {}
+        # get sums for same months
+        per_month = defaultdict(Decimal)
         for s in summary:
-            print(s)
-            for k, v in CURRENCY.items():
-                if s['id_deposits__id_valuta__name'] == k:
-                    s['sum'] *= CURRENCY[k]
-            print("new course {0}".format(s))
-
+            s['sum'] *= CURRENCY.get(s['id_deposits__id_valuta__name'], 1)
+            month = s['datestart'].year, s['datestart'].month
+            per_month[month] += s['sum']
+        # get sum with same months in credits
+        finals = {}
+        for c in creds_dates:
+            monthc = c['date_credit'].year, c['date_credit'].month
+            finals[monthc] = c['sum']
+        # find the diffs between deposits and credits
+        difference = []
+        for key, val in per_month.items():
+            for dat, sumc in finals.items():
+                if key == dat:
+                    coef = val / sumc
+                    if coef > 1.05:
+                        decision = 'Слід знижувати відсоткові ставки в депозитних програмах'
+                    elif 1.05 > coef > 0.95:
+                        decision = 'Ніякі рішення не потрібні'
+                    elif coef < 0.95:
+                        decision = 'Створити акційні пропозиції, переглядати або створити депозитні' \
+                                                 ' програми'
+                    difference.append({
+                        'depos': val,
+                        'creds': sumc,
+                        'date': dat,
+                        'df': val-sumc,  # doesn't evaluates in template
+                        'dc': decision,  # doesn't evaluates in template
+                        'pr': val - sum(per_month.values())/len(per_month)  # doesn't evaluates in template
+                    })
+        print(difference)  # df, dc, pr evaluate here
+        context['difs'] = difference  # i give it to context
         return context

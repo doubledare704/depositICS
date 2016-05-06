@@ -27,37 +27,23 @@
                                 <tr>
                                     <th>Депозитний портфель</th>
                                     <th>Кредитний портфель</th>
-                                    <th>За місяць</th>
+                                    <th>За період</th>
                                     <th>Різниця</th>
-                                    <th class="text-right">Висновок</th>
-                                    <th class="text-right">Прогноз</th>
+                                    <th>Висновок</th>
+                                    <th>Прогноз</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
+                                {% for dif in difs %}
+                                   <tr>
+                                    <td>{{ dif.depos }}</td>
+                                    <td>{{ dif.creds }}</td>
+                                    <td>{{ dif.date }}{{ difs.df }}</td>
+                                    <td>{{ difs.df }}</td>
+                                    <td>{{ difs.dc }}</td>
+                                    <td>{{ difs.pr }}</td>
                                 </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
