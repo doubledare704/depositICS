@@ -1,13 +1,20 @@
-from .models import SWOT, Contracts,Credits, Client, Valuta, Deposits, Reports
-from django.core.urlresolvers import reverse,reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .models import SWOT, Contracts, Credits, Client, Valuta, Deposits, Reports
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
 from django import forms
 from django.contrib import messages
+from django.db.models import Sum
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Submit, HTML
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from depositICS.settings import CURRENCY
+
+
 # Create your views here.
 
 
@@ -27,11 +34,11 @@ class SwotForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_action = reverse('swot_add')
         self.helper.form_method = 'POST'
-        self.helper.form_class = 'card card-signup text-center'
+        self.helper.form_class = 'form-horizontal text-center'
         self.helper.help_text_inline = True
         self.helper.html5_required = True
-        self.helper.label_class = 'col-md-2 form-control'
-        self.helper.field_class = 'col-md-4 col-md-offset-2 form-control'
+        self.helper.label_class = 'col-md-3'
+        self.helper.field_class = 'input-group col-md-6'
         self.helper.layout.append('')
         self.helper.layout[-1] = FormActions(
             Submit('add_button', 'Зберегти',
@@ -42,7 +49,6 @@ class SwotForm(forms.ModelForm):
 
 
 class SwotUpdateForm(SwotForm):
-
     def __init__(self, *args, **kwargs):
         super(SwotUpdateForm, self).__init__(*args, **kwargs)
         self.helper.form_action = reverse('swot_edit', kwargs={'pk': kwargs['instance'].id})
@@ -84,3 +90,30 @@ class SwotDeleteView(DeleteView):
 
     def get_success_url(self):
         return '{0}'.format(reverse_lazy('swot'))
+
+
+class AnalysisListView(TemplateView):
+    template_name = "core/analysis.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AnalysisListView, self).get_context_data(**kwargs)
+
+        time_threshold = datetime.now() - relativedelta(years=1)
+
+        creds_dates = Credits.objects.all().filter(
+            date_credit__gte=time_threshold).values('date_credit',).annotate(sum=Sum('all_sum')).order_by('date_credit')
+
+        print(creds_dates)
+        time_threshold = datetime.now() - relativedelta(years=1)
+        summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
+            'datestart', 'id_deposits__id_valuta__name').annotate(sum=Sum('suma')).order_by(
+            '-id_deposits__id_valuta__name')
+        fin = {}
+        for s in summary:
+            print(s)
+            for k, v in CURRENCY.items():
+                if s['id_deposits__id_valuta__name'] == k:
+                    s['sum'] *= CURRENCY[k]
+            print("new course {0}".format(s))
+
+        return context

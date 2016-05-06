@@ -3,6 +3,7 @@
 {% url "swot" as swot %}
 {% url "users:auth_login" as login %}
 {% url "users:registration_register" as regist %}
+{% url "analysis" as an %}
 <!-- Navbar -->
 <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
 	<div class="container">
@@ -39,8 +40,8 @@
 						<i class="material-icons">trending_up</i> SWOT
 					</a>
 				</li>
-				<li>
-					<a href="#" class="btn">
+				<li {% ifequal request.path an %}class="active" {% endifequal %}>
+					<a href="{% url "analysis" %}" class="btn">
 						<i class="material-icons">trending_up</i> Аналіз
 					</a>
 				</li>

@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import views as auth_views
-from core.views import SwotListView, SwotUpdateView, SwotCreateView,SwotDeleteView
+from core.views import SwotListView, SwotUpdateView, SwotCreateView,SwotDeleteView, AnalysisListView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,5 +33,5 @@ urlpatterns = [
     url(r'^swot/(?P<pk>\d+)/edit/$', SwotUpdateView.as_view(), name='swot_edit'),
     url(r'^swot/add/$', SwotCreateView.as_view(), name='swot_add'),
     url(r'^swot/(?P<pk>\d+)/del/$', SwotDeleteView.as_view(), name='swot_del'),
-
+    url(r'^analysis/$', AnalysisListView.as_view(), name="analysis"),
 ]

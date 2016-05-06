@@ -141,3 +141,9 @@ STATICFILES_DIRS = (
 REGISTRATION_OPEN = True
 LOGIN_URL = 'users:auth_login'
 LOGOUT_URL = 'users:auth_logout'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CURRENCY = {
+    "Гривня": 1,
+    "Долар": 25,
+    "Євро": 28,
+}
