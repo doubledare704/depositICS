@@ -4,6 +4,7 @@
 {% url "users:auth_login" as login %}
 {% url "users:registration_register" as regist %}
 {% url "analysis" as an %}
+{% url "report" as reps %}
 <!-- Navbar -->
 <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
 	<div class="container">
@@ -45,8 +46,8 @@
 						<i class="material-icons">trending_up</i> Аналіз
 					</a>
 				</li>
-				<li>
-					<a href="#" class="btn">
+				<li {%  ifequal request.path reps %}class="active"{% endifequal %}>
+					<a href="{% url "report" %}" class="btn">
 						<i class="material-icons">trending_up</i> Звіти
 					</a>
 				</li>

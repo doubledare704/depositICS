@@ -13,7 +13,7 @@ from django.db.models import Sum
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
 from depositICS.settings import CURRENCY
-from .models import SWOT, Contracts, Credits
+from .models import SWOT, Contracts, Credits, Reports
 
 
 # Create your views here.
@@ -189,3 +189,60 @@ class AnalysisListView(TemplateView):
         context['difs'] = difference
 
         return context
+
+
+class ReportListView(ListView):
+    model = Reports
+    template_name = "core/reports.html"
+
+
+class ReportForm(SwotForm):
+    class Meta:
+        model = Reports
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ReportForm, self).__init__(*args, **kwargs)
+
+        self.helper.form_action = reverse('report_add')
+        self.helper.layout[-1] = FormActions(
+            Submit('add_button', 'Зберегти',
+                   css_class='btn btn-primary'),
+            HTML(
+                '<a class="btn btn-warning" href="{0}">{1}</a>'.format(reverse('report'), 'Відміна')),
+        )
+
+
+class ReportUpdateForm(ReportForm):
+    def __init__(self, *args, **kwargs):
+        super(ReportUpdateForm, self).__init__(*args, **kwargs)
+        self.helper.form_action = reverse('report_edit', kwargs={'pk': kwargs['instance'].id})
+
+
+class ReportMixin(SwotViewMixin):
+    model = Reports
+
+    def get_success_url(self):
+        return '{0}'.format(reverse_lazy('report'))
+
+
+class ReportCreateView(ReportMixin, CreateView):
+    form_class = ReportForm
+    success_msg = 'Звіт додано'
+    cancel_id = 'cancel_button'
+    cancel_msg = 'Зупинка'
+
+
+class ReportUpdateView(ReportMixin, UpdateView):
+    form_class = ReportUpdateForm
+    success_msg = 'Оновлено звіт'
+    cancel_id = 'cancel_button'
+    cancel_msg = 'Редагування зупинено'
+
+
+class ReportDeleteView(DeleteView):
+    model = Reports
+    template_name = "core/delete_report.html"
+
+    def get_success_url(self):
+        return '{0}'.format(reverse_lazy('report'))

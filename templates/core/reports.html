@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block mains %}
+    <div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg" %}');">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="brand">
+                        <h1>Розділ звітів</h1>
+                        <h3>Зібрано всі звіти в даній ІУС</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container-fluid ov">
+                <div class="title text-center">
+                    <h1>Список звітів</h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-9 col-md-offset-2">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Назва звіту</th>
+                                <th>Текст звіту</th>
+                                <th>Договір</th>
+                                <th>Клієнт</th>
+                                <th>Сума кредиту</th>
+                                <th>Видалення?</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for report in object_list %}
+                                <tr>
+                                    <td>{{ report.name }}
+                                        <a class="swot-form-link" title="Редагувати" href="{% url "report_edit" report.id %}">
+                                                            <i class="material-icons">create</i></a>
+                                    </td>
+                                    <td>{{ report.document }}
+                                        <a class="swot-form-link" title="Редагувати" href="{% url "report_edit" report.id %}">
+                                                            <i class="material-icons">create</i></a>
+                                    </td>
+                                    <td>{{ report.id_contracts }}</td>
+                                    <td>{{ report.id_client }}</td>
+                                    <td>{{ report.id_credits }}</td>
+                                    <td><a class="swot-form-link" title="Видалити" href="{% url "report_del" report.id %}">
+                                                            <i class="material-icons">clear</i>
+                                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                    <div class="footer text-center">
+                        <a href="{% url "report_add" %}" class="swot-form-link btn btn-raised btn-default btn-wd btn-lg">
+                            Додати новий</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
