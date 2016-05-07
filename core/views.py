@@ -8,8 +8,10 @@ from crispy_forms.layout import Submit, HTML
 from dateutil.relativedelta import relativedelta
 from django import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Sum
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
 from depositICS.settings import CURRENCY
@@ -18,8 +20,23 @@ from .models import SWOT, Contracts, Credits, Reports
 
 # Create your views here.
 
+class LoginRequiredMixin(object):
+    """
+    A login required mixin for use with class based views. This Class is a light wrapper around the
+    `login_required` decorator and hence function parameters are just attributes defined on the class.
 
-class SwotListView(ListView):
+    Due to parent class order traversal this mixin must be added as the left most
+    mixin of a view.
+
+    The mixin has exaclty the same flow as `login_required` decorator
+
+    """
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class SwotListView(LoginRequiredMixin, ListView):
     model = SWOT
     template_name = "core/swot.html"
 
@@ -71,21 +88,21 @@ class SwotViewMixin(object):
                 request, *arg, **kwargs)
 
 
-class SwotCreateView(SwotViewMixin, CreateView):
+class SwotCreateView(LoginRequiredMixin, SwotViewMixin, CreateView):
     form_class = SwotForm
     success_msg = 'Атрибут додано'
     cancel_id = 'cancel_button'
     cancel_msg = 'Зупинка'
 
 
-class SwotUpdateView(SwotViewMixin, UpdateView):
+class SwotUpdateView(LoginRequiredMixin, SwotViewMixin, UpdateView):
     form_class = SwotUpdateForm
     success_msg = 'Оновлено атрибут'
     cancel_id = 'cancel_button'
     cancel_msg = 'Редагування зупинено'
 
 
-class SwotDeleteView(DeleteView):
+class SwotDeleteView(LoginRequiredMixin, DeleteView):
     model = SWOT
     template_name = "core/delete_confirm.html"
 
@@ -93,7 +110,7 @@ class SwotDeleteView(DeleteView):
         return '{0}'.format(reverse_lazy('swot'))
 
 
-class AnalysisListView(TemplateView):
+class AnalysisListView(LoginRequiredMixin, TemplateView):
     template_name = "core/analysis.html"
 
     def get_context_data(self, **kwargs):
@@ -191,7 +208,7 @@ class AnalysisListView(TemplateView):
         return context
 
 
-class ReportListView(ListView):
+class ReportListView(LoginRequiredMixin, ListView):
     model = Reports
     template_name = "core/reports.html"
 
@@ -226,21 +243,21 @@ class ReportMixin(SwotViewMixin):
         return '{0}'.format(reverse_lazy('report'))
 
 
-class ReportCreateView(ReportMixin, CreateView):
+class ReportCreateView(LoginRequiredMixin, ReportMixin, CreateView):
     form_class = ReportForm
     success_msg = 'Звіт додано'
     cancel_id = 'cancel_button'
     cancel_msg = 'Зупинка'
 
 
-class ReportUpdateView(ReportMixin, UpdateView):
+class ReportUpdateView(LoginRequiredMixin, ReportMixin, UpdateView):
     form_class = ReportUpdateForm
     success_msg = 'Оновлено звіт'
     cancel_id = 'cancel_button'
     cancel_msg = 'Редагування зупинено'
 
 
-class ReportDeleteView(DeleteView):
+class ReportDeleteView(LoginRequiredMixin, DeleteView):
     model = Reports
     template_name = "core/delete_report.html"
 
