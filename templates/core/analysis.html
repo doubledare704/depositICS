@@ -91,45 +91,31 @@
         <div class="section section-basic">
             <div class="container">
                 <div class="title text-center">
-                    <h1>Аналіз депозитного портфеля</h1>
+                    <h1>Аналіз депозитного портфеля за типами клієнтів</h1>
                 </div>
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Депозитний портфель</th>
-                                <th>Кредитний портфель</th>
-                                <th>За місяць</th>
-                                <th>Різниця</th>
-                                <th class="text-right">Висновок</th>
-                                <th class="text-right">Прогноз</th>
+                                <th>Клієнти</th>
+                                <th>Сума за типом клієнта</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>567443</td>
-                                <td>6643453</td>
-                                <td>березень</td>
-                                <td class="text-right">564534</td>
-                                <td class="text-right"> змінити політику</td>
-                                <td class="text-right">+43</td>
-                            </tr>
-                            <tr>
-                                <td>567443</td>
-                                <td>6643453</td>
-                                <td>березень</td>
-                                <td class="text-right">564534</td>
-                                <td class="text-right"> змінити політику</td>
-                                <td class="text-right">+43</td>
-                            </tr>
-                            <tr>
-                                <td>567443</td>
-                                <td>6643453</td>
-                                <td>березень</td>
-                                <td class="text-right">564534</td>
-                                <td class="text-right"> змінити політику</td>
-                                <td class="text-right">+43</td>
+                            {% for tk, tv in types.items %}
+                                <tr>
+                                    <td>{{ tk }}</td>
+                                    <td>{{ tv }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="info">
+                                <td>{{ t_suma }}
+                                    <span class="explain"> Сума фіз. і юр. осіб</span>
+                                </td>
+                                <td>{{ t_dec }}
+                                    <span class="explain">{{ t_expl }}</span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

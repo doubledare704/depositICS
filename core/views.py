@@ -108,20 +108,42 @@ class AnalysisListView(TemplateView):
 
         time_threshold = datetime.now() - relativedelta(years=1)
         summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
-            'datestart', 'id_deposits__id_valuta__name', 'id_deposits__duration').annotate(sum=Sum('suma')).order_by(
+            'datestart', 'id_deposits__id_valuta__name', 'id_deposits__duration', 'id_client__type_cl').annotate(
+            sum=Sum('suma')).order_by(
             '-id_deposits__id_valuta__name')
         # get sums for same months
         per_month = defaultdict(Decimal)
         per_duration = {'12': 0, '6': 0, '3': 0}
+        per_client = {'фізична особа': 0, 'банк': 0, 'юридична особа': 0}
         for s in summary:
             s['sum'] *= CURRENCY.get(s['id_deposits__id_valuta__name'], 1)
             month = s['datestart'].year, s['datestart'].month
             per_month[month] += s['sum']
             duration = str(s['id_deposits__duration'])
             per_duration[duration] += s['sum']
+            client = s['id_client__type_cl']
+            per_client[client] += s['sum']
         # get sum with same months in credits
         print(summary)
         print(per_duration)
+        print(per_client)
+        needed_client = ('фізична особа', 'юридична особа')
+        sumka=0
+        for i in range(len(needed_client)):
+            # if per_client[needed_client[i]]
+            sumka += per_client[needed_client[i]]
+            print(sumka)
+            if sumka > per_client['банк']:
+                type_decision = 'Не потрібно управлінських рішень'
+                type_expl = 'Суми за юр. і фіз. особами > суми з інших банків'
+            else:
+                type_decision = 'Переглянути депозитні програми і залучити нових клієнтів (юр і фіз осіб)'
+                type_expl = 'Суми за юр. і фіз. особами < суми з інших банків'
+        print(sumka)
+        context['types'] = per_client
+        context['t_dec'] = type_decision
+        context['t_expl'] = type_expl
+        context['t_suma'] = sumka
         max_key = max(per_duration, key=lambda k: per_duration[k])
         if int(max_key) > 6:
             duration_decision = 'Переглянути наявні депозитні програми, зменшити відсоткові ставки довгостр. депозитів'
