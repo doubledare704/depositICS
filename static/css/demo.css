@@ -373,3 +373,6 @@ span.explain {
     color: #05b863;
     font-size: smaller;
 }
+.ov{
+    overflow-x: scroll;
+}
