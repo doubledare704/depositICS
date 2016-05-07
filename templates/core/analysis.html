@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-9 col-md-offset-2">
-                        <table class="table">
+                        <table class="table" id="depostable">
                             <thead>
                             <tr>
                                 <th>Депозитний портфель</th>
@@ -75,7 +75,7 @@
                                 <td>{{ k }}</td>
                                 <td>{{ v }}</td>
                                 <td>{{ dur_dec }}
-                                    <span class="explain">{{ dur_expl }}</span>
+                                    <span class="explain">{{ dur_expl }} Сума 6\3 - {{ suma_duration63 }}</span>
                                 </td>
                             </tr>
                             {% endfor %}

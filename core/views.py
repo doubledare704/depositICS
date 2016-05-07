@@ -160,9 +160,9 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
         context['t_suma'] = sumka
 
         # check for maximum value for some unknown key, when finds max value returns key
-        max_key = max(per_duration, key=lambda k: per_duration[k])
+        # max_key = max(per_duration, key=lambda k: per_duration[k])
 
-        if int(max_key) > 6:
+        if per_duration['12'] > per_duration['6']+per_duration['3']:
             duration_decision = 'Переглянути наявні депозитні програми, зменшити відсоткові ставки довгостр. депозитів'
             duration_expl = 'Довгострокові > Короткострокові'
         else:
@@ -173,6 +173,7 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
         context['duration'] = per_duration
         context['dur_dec'] = duration_decision
         context['dur_expl'] = duration_expl
+        context['suma_duration63'] = per_duration['6']+per_duration['3']
 
         finals = {}
         for c in creds_dates:
