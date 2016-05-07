@@ -2,18 +2,18 @@
 {% load static from staticfiles %}
 
 {% block mains %}
-    <div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg"%}');">
+    <div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg" %}');">
         <div class="container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="brand">
-						<h1>Аналітичний розділ</h1>
-						<h3>Тут зібрана вся статистика та відомості.</h3>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="brand">
+                        <h1>Аналітичний розділ</h1>
+                        <h3>Тут зібрані всі відомості</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main main-raised">
         <div class="section section-basic">
             <div class="container-fluid">
@@ -22,30 +22,66 @@
                 </div>
                 <div class="row">
                     <div class="col-md-9 col-md-offset-2">
-                        <table class="table" id="depostable">
+                        <table class="table">
                             <thead>
-                                <tr>
-                                    <th>Депозитний портфель</th>
-                                    <th>Кредитний портфель</th>
-                                    <th>За період</th>
-                                    <th>Різниця</th>
-                                    <th>Висновок</th>
-                                    <th>Прогноз</th>
-                                </tr>
+                            <tr>
+                                <th>Депозитний портфель</th>
+                                <th>Кредитний портфель</th>
+                                <th>За період</th>
+                                <th>Різниця</th>
+                                <th>Висновок</th>
+                                <th>Прогноз</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {% for dif in difs %}
-                                   <tr>
+                            {% for dif in difs %}
+                                <tr>
                                     <td>{{ dif.depos }}</td>
                                     <td>{{ dif.creds }}</td>
                                     <td>{{ dif.date }}</td>
                                     <td>{{ dif.df }}</td>
-                                    <td>{{ dif.dc }}</td>
+                                    <td>{{ dif.dc }}
+                                        <span class="explain">{{ dif.explain }}</span>
+                                    </td>
                                     <td>{{ dif.pr }}</td>
                                 </tr>
-                                {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container">
+                <div class="title text-center">
+                    <h1>Аналіз депозитного портфеля за тривалістю депозитних договорів</h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Тривалість</th>
+                                <th>Сума тривалістю</th>
+                                <th>Висновок</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for k, v in duration.items %}
+                            <tr>
+                                <td>{{ k }}</td>
+                                <td>{{ v }}</td>
+                                <td>{{ dur_dec }}
+                                    <span class="explain">{{ dur_expl }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    <div id='table_div'></div>
                     </div>
                 </div>
             </div>
@@ -61,91 +97,40 @@
                     <div class="col-md-8 col-md-offset-2">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th>Депозитний портфель</th>
-                                    <th>Кредитний портфель</th>
-                                    <th>За місяць</th>
-                                    <th>Різниця</th>
-                                    <th class="text-right">Висновок</th>
-                                    <th class="text-right">Прогноз</th>
-                                </tr>
+                            <tr>
+                                <th>Депозитний портфель</th>
+                                <th>Кредитний портфель</th>
+                                <th>За місяць</th>
+                                <th>Різниця</th>
+                                <th class="text-right">Висновок</th>
+                                <th class="text-right">Прогноз</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="main main-raised">
-        <div class="section section-basic">
-            <div class="container">
-                <div class="title text-center">
-                    <h1>Аналіз депозитного портфеля</h1>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Депозитний портфель</th>
-                                    <th>Кредитний портфель</th>
-                                    <th>За місяць</th>
-                                    <th>Різниця</th>
-                                    <th class="text-right">Висновок</th>
-                                    <th class="text-right">Прогноз</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
-                                <tr>
-                                    <td>567443</td>
-                                    <td>6643453</td>
-                                    <td>березень</td>
-                                    <td class="text-right">564534</td>
-                                    <td class="text-right"> змінити політику</td>
-                                    <td class="text-right">+43</td>
-                                </tr>
+                            <tr>
+                                <td>567443</td>
+                                <td>6643453</td>
+                                <td>березень</td>
+                                <td class="text-right">564534</td>
+                                <td class="text-right"> змінити політику</td>
+                                <td class="text-right">+43</td>
+                            </tr>
+                            <tr>
+                                <td>567443</td>
+                                <td>6643453</td>
+                                <td>березень</td>
+                                <td class="text-right">564534</td>
+                                <td class="text-right"> змінити політику</td>
+                                <td class="text-right">+43</td>
+                            </tr>
+                            <tr>
+                                <td>567443</td>
+                                <td>6643453</td>
+                                <td>березень</td>
+                                <td class="text-right">564534</td>
+                                <td class="text-right"> змінити політику</td>
+                                <td class="text-right">+43</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

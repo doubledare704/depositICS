@@ -103,19 +103,35 @@ class AnalysisListView(TemplateView):
         time_threshold = datetime.now() - relativedelta(years=1)
 
         creds_dates = Credits.objects.all().filter(
-            date_credit__gte=time_threshold).values('date_credit',).annotate(sum=Sum('all_sum')).order_by('date_credit')
+            date_credit__gte=time_threshold).values('date_credit', ).annotate(sum=Sum('all_sum')).order_by(
+            'date_credit')
 
         time_threshold = datetime.now() - relativedelta(years=1)
         summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
-            'datestart', 'id_deposits__id_valuta__name').annotate(sum=Sum('suma')).order_by(
+            'datestart', 'id_deposits__id_valuta__name', 'id_deposits__duration').annotate(sum=Sum('suma')).order_by(
             '-id_deposits__id_valuta__name')
         # get sums for same months
         per_month = defaultdict(Decimal)
+        per_duration = {'12': 0, '6': 0, '3': 0}
         for s in summary:
             s['sum'] *= CURRENCY.get(s['id_deposits__id_valuta__name'], 1)
             month = s['datestart'].year, s['datestart'].month
             per_month[month] += s['sum']
+            duration = str(s['id_deposits__duration'])
+            per_duration[duration] += s['sum']
         # get sum with same months in credits
+        print(summary)
+        print(per_duration)
+        max_key = max(per_duration, key=lambda k: per_duration[k])
+        if int(max_key) > 6:
+            duration_decision = 'Переглянути наявні депозитні програми, зменшити відсоткові ставки довгостр. депозитів'
+            duration_expl = 'Довгострокові > Короткострокові'
+        else:
+            duration_decision = 'Не потрібно управлінських рішень'
+            duration_expl = 'Довгострокові < Короткострокові'
+        context['duration'] = per_duration
+        context['dur_dec'] = duration_decision
+        context['dur_expl'] = duration_expl
         finals = {}
         for c in creds_dates:
             monthc = c['date_credit'].year, c['date_credit'].month
@@ -128,19 +144,26 @@ class AnalysisListView(TemplateView):
                     coef = val / sumc
                     if coef > 1.05:
                         decision = 'Слід знижувати відсоткові ставки в депозитних програмах'
+                        explain = 'Сума депозитів більша за суму кредитів'
                     elif 1.05 > coef > 0.95:
                         decision = 'Ніякі рішення не потрібні'
+                        explain = 'Сума депозитів майже рівноважна з  сумою кредитів'
                     elif coef < 0.95:
                         decision = 'Створити акційні пропозиції, переглядати або створити депозитні' \
-                                                 ' програми'
+                                   ' програми'
+                        explain = 'Сума депозитів менша за суму кредитів'
                     difference.append({
                         'depos': val,
                         'creds': sumc,
                         'date': dat,
-                        'df': val-sumc,
+                        'df': val - sumc,
                         'dc': decision,
-                        'pr': val - sum(per_month.values())/len(per_month)
+                        'explain': explain,
+                        'pr': val - sum(per_month.values()) / len(per_month)
                     })
-        print(difference)
         context['difs'] = difference
+        # summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
+        #     'id_deposits__duration', 'suma'
+        # ).order_by('id_deposits__duration')
+        # print( summary)
         return context

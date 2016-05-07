@@ -368,3 +368,8 @@
 .tutorial-page .title{
     color: #FFFFFF;
 }
+span.explain {
+    display: block;
+    color: #05b863;
+    font-size: smaller;
+}
