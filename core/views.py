@@ -1,20 +1,19 @@
-from .models import SWOT, Contracts, Credits, Client, Valuta, Deposits, Reports
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from collections import defaultdict
+from datetime import datetime
+from decimal import Decimal
 
+from crispy_forms.bootstrap import FormActions
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, HTML
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.contrib import messages
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Sum
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import Submit, HTML
-
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from depositICS.settings import CURRENCY
-from collections import defaultdict
-from decimal import Decimal
+from .models import SWOT, Contracts, Credits
 
 
 # Create your views here.
@@ -115,6 +114,7 @@ class AnalysisListView(TemplateView):
         per_month = defaultdict(Decimal)
         per_duration = {'12': 0, '6': 0, '3': 0}
         per_client = {'фізична особа': 0, 'банк': 0, 'юридична особа': 0}
+        # get sum with same months in credits
         for s in summary:
             s['sum'] *= CURRENCY.get(s['id_deposits__id_valuta__name'], 1)
             month = s['datestart'].year, s['datestart'].month
@@ -123,37 +123,40 @@ class AnalysisListView(TemplateView):
             per_duration[duration] += s['sum']
             client = s['id_client__type_cl']
             per_client[client] += s['sum']
-        # get sum with same months in credits
-        print(summary)
-        print(per_duration)
-        print(per_client)
+        # needed keys for client type
         needed_client = ('фізична особа', 'юридична особа')
-        sumka=0
+        sumka = 0
+        # sum if needed type in per_client
         for i in range(len(needed_client)):
-            # if per_client[needed_client[i]]
+
             sumka += per_client[needed_client[i]]
-            print(sumka)
             if sumka > per_client['банк']:
                 type_decision = 'Не потрібно управлінських рішень'
                 type_expl = 'Суми за юр. і фіз. особами > суми з інших банків'
             else:
                 type_decision = 'Переглянути депозитні програми і залучити нових клієнтів (юр і фіз осіб)'
                 type_expl = 'Суми за юр. і фіз. особами < суми з інших банків'
-        print(sumka)
+        # write to context all data
         context['types'] = per_client
         context['t_dec'] = type_decision
         context['t_expl'] = type_expl
         context['t_suma'] = sumka
+
+        # check for maximum value for some unknown key, when finds max value returns key
         max_key = max(per_duration, key=lambda k: per_duration[k])
+
         if int(max_key) > 6:
             duration_decision = 'Переглянути наявні депозитні програми, зменшити відсоткові ставки довгостр. депозитів'
             duration_expl = 'Довгострокові > Короткострокові'
         else:
             duration_decision = 'Не потрібно управлінських рішень'
             duration_expl = 'Довгострокові < Короткострокові'
+
+        # write to context
         context['duration'] = per_duration
         context['dur_dec'] = duration_decision
         context['dur_expl'] = duration_expl
+
         finals = {}
         for c in creds_dates:
             monthc = c['date_credit'].year, c['date_credit'].month
@@ -184,8 +187,5 @@ class AnalysisListView(TemplateView):
                         'pr': val - sum(per_month.values()) / len(per_month)
                     })
         context['difs'] = difference
-        # summary = Contracts.objects.all().filter(datestart__gte=time_threshold).values(
-        #     'id_deposits__duration', 'suma'
-        # ).order_by('id_deposits__duration')
-        # print( summary)
+
         return context
