@@ -137,10 +137,10 @@ class AnalysisListView(TemplateView):
                         'depos': val,
                         'creds': sumc,
                         'date': dat,
-                        'df': val-sumc,  # doesn't evaluates in template
-                        'dc': decision,  # doesn't evaluates in template
-                        'pr': val - sum(per_month.values())/len(per_month)  # doesn't evaluates in template
+                        'df': val-sumc,
+                        'dc': decision,
+                        'pr': val - sum(per_month.values())/len(per_month)
                     })
-        print(difference)  # df, dc, pr evaluate here
-        context['difs'] = difference  # i give it to context
+        print(difference)
+        context['difs'] = difference
         return context
