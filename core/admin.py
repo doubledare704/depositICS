@@ -19,13 +19,12 @@ copy_objects.short_description = 'Copy all objects'
 class CopyMixin(object):
 
     def __init__(self, model, admin_site):
-        self.actions = [copy_objects]
         self.list_display = [field.name for field in model._meta.fields if field.name != "id"]
         super(CopyMixin, self).__init__(model, admin_site)
 
 
 class AllAdmin(CopyMixin, admin.ModelAdmin):
-    pass
+    actions = [copy_objects]
 
 
 acts.add_to_site(site)

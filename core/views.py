@@ -199,16 +199,20 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
                                    ' програми'
                         explain = 'Сума депозитів менша за суму кредитів'
                     avg = (sum(per_month.values()) / itrs)
+                    if len(str(dat)) <10:
+                        date_str = datetime.strptime(str(dat)[1:8], '%Y, %m')
+                    else:
+                        date_str = datetime.strptime(str(dat)[1:9], '%Y, %m')
                     difference.append({
                         'depos': val,
                         'creds': sumc,
-                        'date': datetime.strptime(str(dat)[7:8], '%m'),
+                        'date': date_str,
                         'df': val - sumc,
                         'dc': decision,
                         'explain': explain,
                         'pr': avg * (-((val - avg) / avg)),
                     })
-                    print(avg, itrs)
+                    print(avg, itrs, dat, len(str(dat)))
         context['difs'] = difference
 
         return context

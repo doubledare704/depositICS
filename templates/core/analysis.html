@@ -38,7 +38,7 @@
                                 <tr>
                                     <td>{{ dif.depos }}</td>
                                     <td>{{ dif.creds }}</td>
-                                    <td>{{ dif.date|date:"F" }}</td>
+                                    <td>{{ dif.date|date:"o F" }}</td>
                                     <td {% if dif.df > 0 %} class="success"{% else %}
                                                             class="danger"{% endif %}>{{ dif.df|floatformat }}</td>
                                     <td>{{ dif.dc }}
