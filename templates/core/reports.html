@@ -37,19 +37,22 @@
                             {% for report in object_list %}
                                 <tr>
                                     <td>{{ report.name }}
-                                        <a class="swot-form-link" title="Редагувати" href="{% url "report_edit" report.id %}">
-                                                            <i class="material-icons">create</i></a>
+                                        <a class="swot-form-link" title="Редагувати"
+                                           href="{% url "report_edit" report.id %}">
+                                            <i class="material-icons">create</i></a>
                                     </td>
                                     <td>{{ report.document }}
-                                        <a class="swot-form-link" title="Редагувати" href="{% url "report_edit" report.id %}">
-                                                            <i class="material-icons">create</i></a>
+                                        <a class="swot-form-link" title="Редагувати"
+                                           href="{% url "report_edit" report.id %}">
+                                            <i class="material-icons">create</i></a>
                                     </td>
                                     <td>{{ report.id_contracts }}</td>
                                     <td>{{ report.id_client }}</td>
                                     <td>{{ report.id_credits }}</td>
-                                    <td><a class="swot-form-link" title="Видалити" href="{% url "report_del" report.id %}">
-                                                            <i class="material-icons">clear</i>
-                                                        </a>
+                                    <td><a class="swot-form-link" title="Видалити"
+                                           href="{% url "report_del" report.id %}">
+                                        <i class="material-icons">clear</i>
+                                    </a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -57,10 +60,10 @@
                         </table>
                     </div>
                 </div>
-                    <div class="footer text-center">
-                        <a href="{% url "report_add" %}" class="swot-form-link btn btn-raised btn-default btn-wd btn-lg">
-                            Додати новий</a>
-                    </div>
+                <div class="footer text-center">
+                    <a href="{% url "report_add" %}" class="swot-form-link btn btn-raised btn-default btn-wd btn-lg">
+                        Додати новий</a>
+                </div>
             </div>
         </div>
     </div>

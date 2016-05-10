@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import views as auth_views
 from core.views import SwotListView, SwotUpdateView, SwotCreateView, SwotDeleteView, AnalysisListView, ReportListView, \
-    ReportCreateView, ReportDeleteView,ReportUpdateView
+    ReportCreateView, ReportDeleteView, ReportUpdateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

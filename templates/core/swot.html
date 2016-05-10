@@ -2,123 +2,136 @@
 {% load static from staticfiles %}
 
 {% block mains %}
-    <div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg"%}');">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="brand">
-						<h1>SWOT аналіз</h1>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="card card-nav-tabs">
-							<div class="header header-primary">
-								<!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-								<div class="nav-tabs-navigation">
-									<div class="nav-tabs-wrapper">
-										<ul class="nav nav-tabs" data-tabs="tabs">
-											<li class="" data-toggle="tooltip" data-placement="top" title="Сильні сторони">
-												<a href="#s" data-toggle="tab" aria-expanded="false">
-													<i class="material-icons">list</i>
-													Strengths
-												<div class="ripple-container"></div></a>
-											</li>
-											<li class="active" data-toggle="tooltip" data-placement="top" title="Слабкі сторони">
-												<a href="#w" data-toggle="tab" aria-expanded="true">
-													<i class="material-icons">list</i>
-													Weaknesses
-												<div class="ripple-container"></div></a>
-											</li>
-											<li class="" data-toggle="tooltip" data-placement="top" title="Можливості">
-												<a href="#o" data-toggle="tab" aria-expanded="false">
-													<i class="material-icons">list</i>
-													Opportunities
-												<div class="ripple-container"></div></a>
+    <div class="header header-filter" style="background-image: url('{% static "img/bg2.jpeg" %}');">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="brand">
+                        <h1>SWOT аналіз</h1>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card card-nav-tabs">
+                        <div class="header header-primary">
+                            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="" data-toggle="tooltip" data-placement="top" title="Сильні сторони">
+                                            <a href="#s" data-toggle="tab" aria-expanded="false">
+                                                <i class="material-icons">list</i>
+                                                Strengths
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="active" data-toggle="tooltip" data-placement="top"
+                                            title="Слабкі сторони">
+                                            <a href="#w" data-toggle="tab" aria-expanded="true">
+                                                <i class="material-icons">list</i>
+                                                Weaknesses
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="" data-toggle="tooltip" data-placement="top" title="Можливості">
+                                            <a href="#o" data-toggle="tab" aria-expanded="false">
+                                                <i class="material-icons">list</i>
+                                                Opportunities
+                                                <div class="ripple-container"></div>
+                                            </a>
 
-											</li>
-											<li class="" data-toggle="tooltip" data-placement="top" title="Загрози">
-												<a href="#t" data-toggle="tab" aria-expanded="false">
-													<i class="material-icons">list</i>
-													Threats
-												<div class="ripple-container"></div></a>
+                                        </li>
+                                        <li class="" data-toggle="tooltip" data-placement="top" title="Загрози">
+                                            <a href="#t" data-toggle="tab" aria-expanded="false">
+                                                <i class="material-icons">list</i>
+                                                Threats
+                                                <div class="ripple-container"></div>
+                                            </a>
 
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="content">
-								<div class="tab-content text-center">
-									<div class="tab-pane fade in" id="s">
-										<ul class="list-group">
-                                            {% for swot in object_list %}
-                                                {% if swot.swot_type == 'S' %}
-										            <li class="list-group-item list-group-item-success">{{ swot.swot_attr }}
-                                                        <a class="swot-form-link" title="Редагувати" href="{% url "swot_edit" swot.id %}">
-                                                            <i class="material-icons">create</i></a>
-                                                        <a class="swot-form-link" title="Видалити" href="{% url "swot_del" swot.id %}">
-                                                            <i class="material-icons">clear</i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-										</ul>
-									</div>
-									<div class="tab-pane active fade in" id="w">
-										<ul class="list-group">
-                                            {% for swot in object_list %}
-                                                {% if swot.swot_type == 'W' %}
-										            <li class="list-group-item list-group-item-warning">{{ swot.swot_attr }}
-                                                        <a class="swot-form-link" title="Редагувати" href="{% url "swot_edit" swot.id %}">
-                                                            <i class="material-icons">create</i></a>
-                                                        <a class="swot-form-link" title="Видалити" href="{% url "swot_del" swot.id %}">
-                                                            <i class="material-icons">clear</i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-										</ul>
-									</div>
-									<div class="tab-pane fade in" id="o">
-										<ul class="list-group">
-										  {% for swot in object_list %}
-                                                {% if swot.swot_type == 'O' %}
-										            <li class="list-group-item list-group-item-info">{{ swot.swot_attr }}
-                                                        <a class="swot-form-link" title="Редагувати" href="{% url "swot_edit" swot.id %}">
-                                                            <i class="material-icons">create</i></a>
-                                                        <a class="swot-form-link" title="Видалити" href="{% url "swot_del" swot.id %}">
-                                                            <i class="material-icons">clear</i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-										</ul>
-									</div>
-									<div class="tab-pane fade in" id="t">
-										<ul class="list-group">
-										  {% for swot in object_list %}
-                                                {% if swot.swot_type == 'T' %}
-										            <li class="list-group-item list-group-item-danger">{{ swot.swot_attr }}
-                                                        <a class="swot-form-link" title="Редагувати" href="{% url "swot_edit" swot.id %}">
-                                                            <i class="material-icons">create</i></a>
-                                                        <a class="swot-form-link" title="Видалити" href="{% url "swot_del" swot.id %}">
-                                                            <i class="material-icons">clear</i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="tab-content text-center">
+                                <div class="tab-pane fade in" id="s">
+                                    <ul class="list-group">
+                                        {% for swot in object_list %}
+                                            {% if swot.swot_type == 'S' %}
+                                                <li class="list-group-item list-group-item-success">{{ swot.swot_attr }}
+                                                    <a class="swot-form-link" title="Редагувати"
+                                                       href="{% url "swot_edit" swot.id %}">
+                                                        <i class="material-icons">create</i></a>
+                                                    <a class="swot-form-link" title="Видалити"
+                                                       href="{% url "swot_del" swot.id %}">
+                                                        <i class="material-icons">clear</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="tab-pane active fade in" id="w">
+                                    <ul class="list-group">
+                                        {% for swot in object_list %}
+                                            {% if swot.swot_type == 'W' %}
+                                                <li class="list-group-item list-group-item-warning">{{ swot.swot_attr }}
+                                                    <a class="swot-form-link" title="Редагувати"
+                                                       href="{% url "swot_edit" swot.id %}">
+                                                        <i class="material-icons">create</i></a>
+                                                    <a class="swot-form-link" title="Видалити"
+                                                       href="{% url "swot_del" swot.id %}">
+                                                        <i class="material-icons">clear</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade in" id="o">
+                                    <ul class="list-group">
+                                        {% for swot in object_list %}
+                                            {% if swot.swot_type == 'O' %}
+                                                <li class="list-group-item list-group-item-info">{{ swot.swot_attr }}
+                                                    <a class="swot-form-link" title="Редагувати"
+                                                       href="{% url "swot_edit" swot.id %}">
+                                                        <i class="material-icons">create</i></a>
+                                                    <a class="swot-form-link" title="Видалити"
+                                                       href="{% url "swot_del" swot.id %}">
+                                                        <i class="material-icons">clear</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade in" id="t">
+                                    <ul class="list-group">
+                                        {% for swot in object_list %}
+                                            {% if swot.swot_type == 'T' %}
+                                                <li class="list-group-item list-group-item-danger">{{ swot.swot_attr }}
+                                                    <a class="swot-form-link" title="Редагувати"
+                                                       href="{% url "swot_edit" swot.id %}">
+                                                        <i class="material-icons">create</i></a>
+                                                    <a class="swot-form-link" title="Видалити"
+                                                       href="{% url "swot_del" swot.id %}">
+                                                        <i class="material-icons">clear</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="footer text-center">
                         <a href="{% url "swot_add" %}" class="swot-form-link btn btn-raised btn-default btn-wd btn-lg">
                             Додати новий</a>
                     </div>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

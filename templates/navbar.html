@@ -7,75 +7,75 @@
 {% url "report" as reps %}
 <!-- Navbar -->
 <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
-	<div class="container">
+    <div class="container">
         <div class="navbar-header">
-	    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
-	        	<span class="sr-only">Toggle navigation</span>
-	        	<span class="icon-bar"></span>
-	        	<span class="icon-bar"></span>
-	        	<span class="icon-bar"></span>
-	    	</button>
-	    	<a href="{% url "home" %}">
-	        	<div class="logo-container">
-	                <div class="logo">
-	                    <img src="{% static "img/logo.png" %}" alt="deposit" rel="tooltip"
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{% url "home" %}">
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="{% static "img/logo.png" %}" alt="deposit" rel="tooltip"
                              title="<b>DepositICS</b> was Designed & Coded with care by Oleksiy Ovdiyenko"
                              data-placement="bottom" data-html="true">
-	                </div>
-	                <div class="brand">
-	                    DepositICS
-	                </div>
-				</div>
-	      	</a>
-	    </div>
+                    </div>
+                    <div class="brand">
+                        DepositICS
+                    </div>
+                </div>
+            </a>
+        </div>
 
-	    <div class="collapse navbar-collapse" id="navigation-index">
-	    	<ul class="nav navbar-nav navbar-right">
-				<li {% ifequal request.path home %}class="active"{% endifequal %}>
-					<a href="{% url "home" %}" class="btn">
-						<i class="material-icons">account_balance</i> Домашня сторінка
-					</a>
-				</li>
-				<li {% ifequal request.path swot %}class="active"{% endifequal %}>
-					<a href="{% url "swot" %}" class="btn">
-						<i class="material-icons">trending_up</i> SWOT
-					</a>
-				</li>
-				<li {% ifequal request.path an %}class="active" {% endifequal %}>
-					<a href="{% url "analysis" %}" class="btn">
-						<i class="material-icons">trending_up</i> Аналіз
-					</a>
-				</li>
-				<li {%  ifequal request.path reps %}class="active"{% endifequal %}>
-					<a href="{% url "report" %}" class="btn">
-						<i class="material-icons">trending_up</i> Звіти
-					</a>
-				</li>
-            {% if user.is_authenticated %}
-				<li class="disabled">
-					<a href="#" class="btn">
-						<i class="material-icons">accessibility</i> {{ user.get_full_name|default:user.username }}
-					</a>
-				</li>
-				<li>
-					<a href="{% url "users:auth_logout" %}" class="btn">
-                        <i class="material-icons">exit_to_app</i> Вихід
-					</a>
-				</li>
-            {% else %}
-                <li {% ifequal request.path login %}class="active"{% endifequal %}>
-					<a href="{% url "users:auth_login" %}" class="edit-form btn">
-						<i class="material-icons">accessibility</i> Логін
-					</a>
-				</li>
-				<li {% ifequal request.path regist %}class="active"{% endifequal %}>
-					<a href="{% url "users:registration_register" %}" class="edit-form btn">
-						<i class="material-icons">assignment_turned_in</i> Реєстрація
-					</a>
-				</li>
-            {% endif %}
-	    	</ul>
-	    </div>
-	</div>
+        <div class="collapse navbar-collapse" id="navigation-index">
+            <ul class="nav navbar-nav navbar-right">
+                <li {% ifequal request.path home %}class="active"{% endifequal %}>
+                    <a href="{% url "home" %}" class="btn">
+                        <i class="material-icons">account_balance</i> Домашня сторінка
+                    </a>
+                </li>
+                <li {% ifequal request.path swot %}class="active"{% endifequal %}>
+                    <a href="{% url "swot" %}" class="btn">
+                        <i class="material-icons">trending_up</i> SWOT
+                    </a>
+                </li>
+                <li {% ifequal request.path an %}class="active" {% endifequal %}>
+                    <a href="{% url "analysis" %}" class="btn">
+                        <i class="material-icons">trending_up</i> Аналіз
+                    </a>
+                </li>
+                <li {% ifequal request.path reps %}class="active"{% endifequal %}>
+                    <a href="{% url "report" %}" class="btn">
+                        <i class="material-icons">trending_up</i> Звіти
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="disabled">
+                        <a href="#" class="btn">
+                            <i class="material-icons">accessibility</i> {{ user.get_full_name|default:user.username }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "users:auth_logout" %}" class="btn">
+                            <i class="material-icons">exit_to_app</i> Вихід
+                        </a>
+                    </li>
+                {% else %}
+                    <li {% ifequal request.path login %}class="active"{% endifequal %}>
+                        <a href="{% url "users:auth_login" %}" class="edit-form btn">
+                            <i class="material-icons">accessibility</i> Логін
+                        </a>
+                    </li>
+                    <li {% ifequal request.path regist %}class="active"{% endifequal %}>
+                        <a href="{% url "users:registration_register" %}" class="edit-form btn">
+                            <i class="material-icons">assignment_turned_in</i> Реєстрація
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </nav>
 <!-- End Navbar -->

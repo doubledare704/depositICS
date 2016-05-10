@@ -2,61 +2,61 @@
 
 {% block forming %}
 
-<form action="{% url "users:registration_register" %}" method="post" class="form">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{% url "home" %}" />
-    {% include "registration/form_errors.html" %}
-    <div class="header header-primary text-center">
-        <h4>Реєстрація</h4>
-    </div>
-    <p class="text-divider">Заповніть всю форму</p>
-    <div class="content">
-        <div class="input-group">
+    <form action="{% url "users:registration_register" %}" method="post" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url "home" %}"/>
+        {% include "registration/form_errors.html" %}
+        <div class="header header-primary text-center">
+            <h4>Реєстрація</h4>
+        </div>
+        <p class="text-divider">Заповніть всю форму</p>
+        <div class="content">
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">email</i>
             </span>
-            <input type="text" class="form-control" placeholder="Логін..." name="username">
-            <span class="help-block">{{ form.errors.username.as_text }}</span>
-        </div>
-        <div class="input-group">
+                <input type="text" class="form-control" placeholder="Логін..." name="username">
+                <span class="help-block">{{ form.errors.username.as_text }}</span>
+            </div>
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">email</i>
             </span>
-            <input type="email" class="form-control" placeholder="Пошта..." name="email">
-            <span class="help-block">{{ form.errors.email.as_text }}</span>
-        </div>
-        <div class="input-group">
+                <input type="email" class="form-control" placeholder="Пошта..." name="email">
+                <span class="help-block">{{ form.errors.email.as_text }}</span>
+            </div>
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">face</i>
             </span>
-            <input type="text" class="form-control" placeholder="Ім'я..." name="first_name">
-            <span class="help-block">{{ form.errors.first_name.as_text }}</span>
-        </div>
-        <div class="input-group">
+                <input type="text" class="form-control" placeholder="Ім'я..." name="first_name">
+                <span class="help-block">{{ form.errors.first_name.as_text }}</span>
+            </div>
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">face</i>
             </span>
-            <input type="text" class="form-control" placeholder="Прізвище..." name="last_name">
-            <span class="help-block">{{ form.errors.last_name.as_text }}</span>
-        </div>
+                <input type="text" class="form-control" placeholder="Прізвище..." name="last_name">
+                <span class="help-block">{{ form.errors.last_name.as_text }}</span>
+            </div>
 
-        <div class="input-group">
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">lock_outline</i>
             </span>
-            <input type="password" placeholder="Ваш пароль..." class="form-control" name="password1"/>
-            <span class="help-block">{{ form.errors.password1.as_text }}</span>
-        </div>
-        <div class="input-group">
+                <input type="password" placeholder="Ваш пароль..." class="form-control" name="password1"/>
+                <span class="help-block">{{ form.errors.password1.as_text }}</span>
+            </div>
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">lock_outline</i>
             </span>
-            <input type="password" placeholder="Повторіть пароль..." class="form-control" name="password2"/>
-            <span class="help-block">{{ form.errors.password2.as_text }}</span>
+                <input type="password" placeholder="Повторіть пароль..." class="form-control" name="password2"/>
+                <span class="help-block">{{ form.errors.password2.as_text }}</span>
+            </div>
         </div>
-    </div>
-    <div class="footer text-center">
-        <input type="submit" class="btn btn-raised btn-primary" value="Реєструвати">
-    </div>
-</form>
+        <div class="footer text-center">
+            <input type="submit" class="btn btn-raised btn-primary" value="Реєструвати">
+        </div>
+    </form>
 {% endblock %}

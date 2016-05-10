@@ -199,7 +199,7 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
                                    ' програми'
                         explain = 'Сума депозитів менша за суму кредитів'
                     avg = (sum(per_month.values()) / itrs)
-                    if len(str(dat)) <10:
+                    if len(str(dat)) < 10:
                         date_str = datetime.strptime(str(dat)[1:8], '%Y, %m')
                     else:
                         date_str = datetime.strptime(str(dat)[1:9], '%Y, %m')

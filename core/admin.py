@@ -17,7 +17,6 @@ copy_objects.short_description = 'Copy all objects'
 
 
 class CopyMixin(object):
-
     def __init__(self, model, admin_site):
         self.list_display = [field.name for field in model._meta.fields if field.name != "id"]
         super(CopyMixin, self).__init__(model, admin_site)

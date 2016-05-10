@@ -5,48 +5,49 @@
     <div class="section section-full-screen section-signup header-filter"
          style="background-image: url('{% static "img/city.jpg" %}');
                  background-size: cover; background-position: top center; min-height: 700px;">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4">
-					<div class="card card-signup">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="card card-signup">
                         {% block forming %}
-						<form action="{% url "users:auth_login" %}" method="post" class="form">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{% url "home" %}" />
-                            {% include "registration/form_errors.html" %}
-							<div class="header header-primary text-center">
-								<h4>Логін</h4>
-							</div>
-							<p class="text-divider">Лише проста форма</p>
-							<div class="content">
-								<div class="input-group">
+                            <form action="{% url "users:auth_login" %}" method="post" class="form">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{% url "home" %}"/>
+                                {% include "registration/form_errors.html" %}
+                                <div class="header header-primary text-center">
+                                    <h4>Логін</h4>
+                                </div>
+                                <p class="text-divider">Лише проста форма</p>
+                                <div class="content">
+                                    <div class="input-group">
 									<span class="input-group-addon">
 										<i class="material-icons">email</i>
 									</span>
-									<input type="text" class="form-control" placeholder="Логін..." name="username">
-                                    <span class="help-block">{{ form.errors.username.as_text }}</span>
-								</div>
+                                        <input type="text" class="form-control" placeholder="Логін..." name="username">
+                                        <span class="help-block">{{ form.errors.username.as_text }}</span>
+                                    </div>
 
-								<div class="input-group">
+                                    <div class="input-group">
 									<span class="input-group-addon">
 										<i class="material-icons">lock_outline</i>
 									</span>
-									<input type="password" placeholder="Пароль..." class="form-control" name="password"/>
-                                    <span class="help-block">{{ form.errors.password.as_text }}</span>
-								</div>
-							</div>
-							<div class="footer text-center">
-                                <input type="submit" class="btn btn-raised btn-primary" value="Увійти">
-								<a href="{% url "users:registration_register" %}" role="button"
-                                   class="btn btn-raised btn-default btn-wd">Нема профіля?</a>
-							</div>
-						</form>
+                                        <input type="password" placeholder="Пароль..." class="form-control"
+                                               name="password"/>
+                                        <span class="help-block">{{ form.errors.password.as_text }}</span>
+                                    </div>
+                                </div>
+                                <div class="footer text-center">
+                                    <input type="submit" class="btn btn-raised btn-primary" value="Увійти">
+                                    <a href="{% url "users:registration_register" %}" role="button"
+                                       class="btn btn-raised btn-default btn-wd">Нема профіля?</a>
+                                </div>
+                            </form>
                         {% endblock %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock mains %}

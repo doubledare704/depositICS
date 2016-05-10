@@ -1,5 +1,5 @@
 {% if form.errors %}
-  <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning" role="alert">
         <div class="container-fluid">
             <div class="alert-icon">
                 <i class="material-icons">info_outline</i>
@@ -8,11 +8,11 @@
                 <span aria-hidden="true"><i class="material-icons">clear</i></span>
             </button>
             <h4>{% if form.non_field_errors %}
-              {{ form.non_field_errors.as_text }}
+                {{ form.non_field_errors.as_text }}
             {% else %}
-              Виправіть помилки
+                Виправіть помилки
             {% endif %}
             </h4>
         </div>
-  </div>
+    </div>
 {% endif %}

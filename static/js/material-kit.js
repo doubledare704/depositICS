@@ -6,20 +6,20 @@ var fixedTop = false;
 var navbar_initialized = false;
 
 function initEditSwot() {
-    $('a.swot-form-link, a.edit-form').click(function(event) {
+    $('a.swot-form-link, a.edit-form').click(function (event) {
         var link = $(this);
         var body = $("body");
         $.ajax({
             'url': link.attr('href'),
             'dataType': 'html',
             'type': 'get',
-            'ajaxStart': function() {
+            'ajaxStart': function () {
                 body.addClass("loading");
             },
-            'ajaxStop': function() {
+            'ajaxStop': function () {
                 body.removeClass("loading");
             },
-            'success': function(data, status, xhr) {
+            'success': function (data, status, xhr) {
                 // check if we got successfull response from the server
                 if (status != 'success') {
                     alert('There was an error on the server. Please, try again a bit later.');
@@ -43,7 +43,7 @@ function initEditSwot() {
                     'show': true
                 });
             },
-            'error': function() {
+            'error': function () {
                 alert('There was an error on the server. Please, try again a bit later.');
                 return false
             }
@@ -56,7 +56,7 @@ function initEditSwot() {
 function initEditForm(form, modal) {
 
     // close modal window on Cancel button click
-    form.find('a.btn-warning, a.btn-info').click(function(event) {
+    form.find('a.btn-warning, a.btn-info').click(function (event) {
         modal.modal('hide');
         return false;
     });
@@ -64,11 +64,11 @@ function initEditForm(form, modal) {
     // make form work in AJAX mode
     form.ajaxForm({
         'dataType': 'html',
-        'error': function() {
+        'error': function () {
             alert('There was an error on the server. Please, try again a bit later.');
             return false;
         },
-        'success': function(data, status, xhr) {
+        'success': function (data, status, xhr) {
             var html = $(data),
                 newform = html.find('.col-md-4 form');
 
@@ -85,7 +85,7 @@ function initEditForm(form, modal) {
                 // if no form, it means success and we need to reload page
                 // to get updated students list;
                 // reload after 2 seconds, so that user can read success message
-                setTimeout(function() {
+                setTimeout(function () {
                     location.reload(true);
                 }, 900);
             }
@@ -93,7 +93,7 @@ function initEditForm(form, modal) {
     });
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
 
     // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
     $.material.init();
@@ -104,9 +104,9 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
 
     // Activate Datepicker
-    if($('.datepicker').length != 0){
+    if ($('.datepicker').length != 0) {
         $('.datepicker').datepicker({
-             weekStart:1
+            weekStart: 1
         });
     }
 
@@ -114,32 +114,32 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
 
     // Active Carousel
-	$('.carousel').carousel({
-      interval: 400000
+    $('.carousel').carousel({
+        interval: 400000
     });
 
 });
 
 materialKit = {
-    misc:{
+    misc: {
         navbar_menu_visible: 0
     },
 
-    checkScrollForTransparentNavbar: debounce(function() {
-            if($(document).scrollTop() > 260 ) {
-                if(transparent) {
-                    transparent = false;
-                    $('.navbar-color-on-scroll').removeClass('navbar-transparent');
-                }
-            } else {
-                if( !transparent ) {
-                    transparent = true;
-                    $('.navbar-color-on-scroll').addClass('navbar-transparent');
-                }
+    checkScrollForTransparentNavbar: debounce(function () {
+        if ($(document).scrollTop() > 260) {
+            if (transparent) {
+                transparent = false;
+                $('.navbar-color-on-scroll').removeClass('navbar-transparent');
             }
+        } else {
+            if (!transparent) {
+                transparent = true;
+                $('.navbar-color-on-scroll').addClass('navbar-transparent');
+            }
+        }
     }, 17),
 
-    initSliders: function(){
+    initSliders: function () {
         // Sliders for demo purpose
         $('#sliderRegular').noUiSlider({
             start: 40,
@@ -151,7 +151,7 @@ materialKit = {
         });
 
         $('#sliderDouble').noUiSlider({
-            start: [20, 60] ,
+            start: [20, 60],
             connect: true,
             range: {
                 min: 0,
@@ -165,15 +165,15 @@ materialKit = {
 var big_image;
 
 materialKitDemo = {
-    checkScrollForParallax: debounce(function(){
+    checkScrollForParallax: debounce(function () {
         var current_scroll = $(this).scrollTop();
 
         oVal = ($(window).scrollTop() / 3);
         big_image.css({
-            'transform':'translate3d(0,' + oVal +'px,0)',
-            '-webkit-transform':'translate3d(0,' + oVal +'px,0)',
-            '-ms-transform':'translate3d(0,' + oVal +'px,0)',
-            '-o-transform':'translate3d(0,' + oVal +'px,0)'
+            'transform': 'translate3d(0,' + oVal + 'px,0)',
+            '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
+            '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
+            '-o-transform': 'translate3d(0,' + oVal + 'px,0)'
         });
 
     }, 6)
@@ -185,14 +185,14 @@ materialKitDemo = {
 // leading edge, instead of the trailing.
 
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		clearTimeout(timeout);
-		timeout = setTimeout(function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		}, wait);
-		if (immediate && !timeout) func.apply(context, args);
-	};
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
 };
