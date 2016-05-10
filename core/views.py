@@ -31,6 +31,7 @@ class LoginRequiredMixin(object):
     The mixin has exaclty the same flow as `login_required` decorator
 
     """
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
@@ -131,8 +132,10 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
         per_month = defaultdict(Decimal)
         per_duration = {'12': 0, '6': 0, '3': 0}
         per_client = {'фізична особа': 0, 'банк': 0, 'юридична особа': 0}
+        itrs = 0
         # get sum with same months in credits
         for s in summary:
+            itrs += 1
             s['sum'] *= CURRENCY.get(s['id_deposits__id_valuta__name'], 1)
             month = s['datestart'].year, s['datestart'].month
             per_month[month] += s['sum']
@@ -162,7 +165,7 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
         # check for maximum value for some unknown key, when finds max value returns key
         # max_key = max(per_duration, key=lambda k: per_duration[k])
 
-        if per_duration['12'] > per_duration['6']+per_duration['3']:
+        if per_duration['12'] > per_duration['6'] + per_duration['3']:
             duration_decision = 'Переглянути наявні депозитні програми, зменшити відсоткові ставки довгостр. депозитів'
             duration_expl = 'Довгострокові > Короткострокові'
         else:
@@ -173,7 +176,7 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
         context['duration'] = per_duration
         context['dur_dec'] = duration_decision
         context['dur_expl'] = duration_expl
-        context['suma_duration63'] = per_duration['6']+per_duration['3']
+        context['suma_duration63'] = per_duration['6'] + per_duration['3']
 
         finals = {}
         for c in creds_dates:
@@ -195,15 +198,17 @@ class AnalysisListView(LoginRequiredMixin, TemplateView):
                         decision = 'Створити акційні пропозиції, переглядати або створити депозитні' \
                                    ' програми'
                         explain = 'Сума депозитів менша за суму кредитів'
+                    avg = (sum(per_month.values()) / itrs)
                     difference.append({
                         'depos': val,
                         'creds': sumc,
-                        'date': dat,
+                        'date': datetime.strptime(str(dat)[7:8], '%m'),
                         'df': val - sumc,
                         'dc': decision,
                         'explain': explain,
-                        'pr': val - sum(per_month.values()) / len(per_month)
+                        'pr': avg * (-((val - avg) / avg)),
                     })
+                    print(avg, itrs)
         context['difs'] = difference
 
         return context

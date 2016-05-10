@@ -38,12 +38,14 @@
                                 <tr>
                                     <td>{{ dif.depos }}</td>
                                     <td>{{ dif.creds }}</td>
-                                    <td>{{ dif.date }}</td>
-                                    <td>{{ dif.df }}</td>
+                                    <td>{{ dif.date|date:"F" }}</td>
+                                    <td {% if dif.df > 0 %} class="success"{% else %}
+                                                            class="danger"{% endif %}>{{ dif.df|floatformat }}</td>
                                     <td>{{ dif.dc }}
                                         <span class="explain">{{ dif.explain }}</span>
                                     </td>
-                                    <td>{{ dif.pr }}</td>
+                                    <td {% if dif.pr > 0 %} class="success"{% else %}
+                                                            class="danger"{% endif %}>{{ dif.pr|floatformat }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -71,17 +73,17 @@
                             </thead>
                             <tbody>
                             {% for k, v in duration.items %}
-                            <tr>
-                                <td>{{ k }}</td>
-                                <td>{{ v }}</td>
-                                <td>{{ dur_dec }}
-                                    <span class="explain">{{ dur_expl }} Сума 6\3 - {{ suma_duration63 }}</span>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ k }}</td>
+                                    <td>{{ v }}</td>
+                                    <td>{{ dur_dec }}
+                                        <span class="explain">{{ dur_expl }} Сума 6\3 - {{ suma_duration63 }}</span>
+                                    </td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                    <div id='table_div'></div>
+                        <div id='table_div'></div>
                     </div>
                 </div>
             </div>
