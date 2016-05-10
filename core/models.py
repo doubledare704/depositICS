@@ -60,7 +60,8 @@ class Credits(models.Model):
     all_sum = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        verbose_name='Вся сума'
+        verbose_name='Вся сума',
+        unique_for_month='date_credit'
     )
 
     def __str__(self):
